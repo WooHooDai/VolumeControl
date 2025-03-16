@@ -1,10 +1,10 @@
 --- === VolumeControl ===
 ---
---- 菜单栏音量控制
+--- macos菜单栏音量控制
+--- 基于Hammerspoon, 为macos提供Windows系统一样的音量调节体验。
 --- 在菜单栏显示当前音量，支持鼠标中键滚动调节音量，和点击切换静音状态
---- init: 3月7日
---- fix: 3月11日 静音状态下，调整音量不生效；音量到0时，未显示静音
---- Download: [https://github.com/your_username/VolumeControl.spoon](.)
+--- === END ===
+
 
 local obj = {}
 obj.__index = obj

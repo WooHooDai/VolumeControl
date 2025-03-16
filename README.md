@@ -1,6 +1,6 @@
 # VolumeControl
 
-基于Hammerspoon, 提供了和Windows系统一样的音量调节体验。
+基于Hammerspoon, 为macos提供Windows系统一样的音量调节体验。
 
 ## 功能
 
