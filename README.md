@@ -9,10 +9,12 @@
 - 点击图标切换静音状态
 - 可定制静音文字
 
+![image](https://github.com/user-attachments/assets/a84121ac-c89f-4ed0-aa9a-b7527affd8e4)
+
 ## 安装
 
 1. 下载此仓库
-2. 将 VolumeControl.spoon 文件夹复制到 `~/.hammerspoon/Spoons/` 目录下
+2. 将 `init.lua` 文件复制到 `~/.hammerspoon/Spoons/VolumeControl.spoon` 目录下
 
 ## 使用方法
 在你的 Hammerspoon 配置文件 (`~/.hammerspoon/init.lua`) 中添加:
