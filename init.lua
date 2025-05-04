@@ -29,12 +29,17 @@ obj._percent = ""
 function obj:updateVolumeIcon()
     local device = self._audioDevice
     if device and self._volumeIcon then
-        local volume = math.floor(device:volume())
+        local volume = device:volume()
         local muted = device:muted()
+        
         if muted then
             self._volumeIcon:setTitle(self._volMute)
+        elseif volume ~= nil then
+            self._volumeIcon:setTitle(math.floor(volume).. (obj._volPercent and "%" or ""))
         else
-            self._volumeIcon:setTitle(volume.. (obj._volPercent and "%" or ""))
+            -- 连接电视为显示器时，音量为nil，粗暴处理一下
+            -- TODO： 音量输出源不为nil或者切换时，重启脚本以显示音量
+            self._volumeIcon:setTitle("--")
         end
         self._volumeIcon:autosaveName("volumeControl")
     end
