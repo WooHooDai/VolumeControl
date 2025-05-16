@@ -36,6 +36,10 @@ spoon.VolumeControl:visiblePercent(false)
 -- 静音/音量为0时，显示内容
 spoon.VolumeControl:setMuteStr("静音")
 
+-- 设置字体
+spoon.VolumeControl:setFont("Arial", 14)
+
+-- 启动
 spoon.VolumeControl:start()
 ```
 
@@ -44,7 +48,10 @@ spoon.VolumeControl:start()
 `stop()`: 停止插件
 `visiblePercent(visible)`: 隐藏/显示音量百分号
 `setMuteStr(str)`: 设置静音文字
+`setFont(fontName, fontSize)`: 设置字体
 
 ## 版本记录
+- 2025-05-16: feat 增加设置字体API（默认为Arial、14号，避免调整音量时抖动）
+- 2025-05-04: fix 音量输出源为电视时，音量为nil
 - 2025-03-11: fix 静音状态下，调整音量不生效；音量到0时，未显示静音
 - 2025-03-07: init 初始功能

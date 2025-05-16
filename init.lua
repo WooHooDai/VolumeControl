@@ -25,6 +25,10 @@ obj._audioDevice = nil
 obj._volMute = "静音"
 obj._volPercent = false
 obj._percent = ""
+obj._font = {  -- 字体设置
+    name = "Arial",
+    size = fontSize or 14  -- 默认字体大小为12
+}
 
 function obj:updateVolumeIcon()
     local device = self._audioDevice
@@ -32,15 +36,31 @@ function obj:updateVolumeIcon()
         local volume = device:volume()
         local muted = device:muted()
         
+        local titleText = ""
         if muted then
-            self._volumeIcon:setTitle(self._volMute)
+            titleText = self._volMute
         elseif volume ~= nil then
-            self._volumeIcon:setTitle(math.floor(volume).. (obj._volPercent and "%" or ""))
+            titleText = math.floor(volume).. (obj._volPercent and "%" or "")
         else
             -- 连接电视为显示器时，音量为nil，粗暴处理一下
             -- TODO： 音量输出源不为nil或者切换时，重启脚本以显示音量
-            self._volumeIcon:setTitle("--")
+            titleText = "--"
         end
+        
+        -- 应用字体设置
+        if self._font then
+            -- 使用hs.styledtext创建带样式的文本
+            local styledTitle = hs.styledtext.new(titleText, {
+                font = {
+                    name = self._font.name,
+                    size = self._font.size
+                }
+            })
+            self._volumeIcon:setTitle(styledTitle)
+        else
+            self._volumeIcon:setTitle(titleText)
+        end
+        
         self._volumeIcon:autosaveName("volumeControl")
     end
 end
@@ -127,5 +147,19 @@ function obj:visiblePercent(boolean)
     return self
 end
 
+-- 设置字体（可自行指定等宽字体，避免音量调整时的抖动）
+function obj:setFont(fontName, fontSize)
+    if fontName then
+        self._font = {
+            name = fontName,
+            size = fontSize or 14
+        }
+        -- 如果图标已经创建，立即更新图标
+        if self._volumeIcon then
+            self:updateVolumeIcon()
+        end
+    end
+    return self
+end
 
 return obj
