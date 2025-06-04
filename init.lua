@@ -194,6 +194,13 @@ function obj:start()
         end
         
         if self._audioDevice then -- 启动当前音频设备监听
+            -- First set the callback
+            self._audioDevice:watcherCallback(function(dev_uid, event_name, scope, element)
+                if event_name == "vmvc" then
+                    self:updateVolumeIcon()
+                end
+            end)
+            -- Then start the watcher
             self._audioDevice:watcherStart()
         end
         
