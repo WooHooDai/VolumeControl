@@ -17,15 +17,16 @@ obj.homepage = "https://github.com/WooHooDai/VolumeControl"
 obj.license = "MIT - https://opensource.org/licenses/MIT"
 
 -- 内部属性
-obj._volumeIcon = nil
-obj._scrollWatcher = nil
-obj._audioDevice = nil
-obj._deviceWatcher = nil
+obj._volumeIcon = nil    -- 音量控件
+obj._audioDevice = nil    -- 当前音频设备
+obj._mouseWatcher = nil    -- 鼠标事件监听
+obj._deviceWatcher = nil    -- 系统级音频设备变更监听
 obj._showDeviceName = false  -- 是否显示设备名称
+
 -- 内部属性：音量图标
-obj._volMute = "静音"
-obj._volPercent = false
-obj._percent = ""
+obj._volMute = "静音"    -- 静音文本
+obj._volPercent = false    -- 是否显示百分比
+obj._percent = ""    -- 百分比文本
 obj._font = {  -- 字体设置
     name = "Arial",
     size = fontSize or 14  -- 默认字体大小为12
@@ -75,7 +76,6 @@ end
 function obj:init()
     self._volumeIcon = hs.menubar.new(true, "volumeControl")    -- 创建音量图标
     self._audioDevice = hs.audiodevice.defaultOutputDevice()     -- 获取默认音频设备
-
     -- 创建音量图标右键菜单
     self._volumeIcon:setMenu(function()
         local menu = {}
@@ -170,7 +170,8 @@ function obj:init()
     end
     
     -- 设置系统级音频设备变更监听
-    hs.audiodevice.watcher.setCallback(function(event)
+    self._deviceWatcher = hs.audiodevice.watcher
+    self._deviceWatcher.setCallback(function(event)
         -- 当默认输出设备改变时更新图标
         if event == "dOut" then
             -- 短暂延迟以确保设备已完全切换
@@ -179,7 +180,7 @@ function obj:init()
             end)
         end
     end)
-    self._deviceWatcher = hs.audiodevice.watcher
+    
     
     return self
 end
@@ -197,7 +198,7 @@ function obj:start()
         end
         
         if self._deviceWatcher then -- 启动系统级音频设备变更监听
-            self._deviceWatcher.start()
+            self._deviceWatcher:start()
         end
     end
     return self
